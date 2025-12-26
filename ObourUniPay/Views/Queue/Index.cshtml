@@ -1,0 +1,71 @@
+@{
+    ViewData["Title"] = "Start Turn";
+}
+
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 85vh;">
+    <div class="col-md-6 col-lg-5">
+        <div class="glass-card fade-in-up text-center">
+
+            <div class="mb-4">
+                <i class="bi bi-person-badge-fill" style="font-size: 3rem; color: var(--primary-color);"></i>
+            </div>
+
+            <h1 class="display-title mb-2">Welcome Student</h1>
+            <p class="text-subtle mb-5">Please scan your ID barcode to generate your queue ticket.</p>
+
+            @if (ViewBag.Error != null)
+            {
+                    <div class="alert alert-danger shadow-soft border-0 mb-4 rounded-3 animate-pop">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i> @ViewBag.Error
+                    </div>
+            }
+
+            <form asp-action="GetTurn" method="post">
+                <div class="input-group-modern">
+                    <input type="text" class="input-modern"
+                        id="barcode" name="barcode"
+                        placeholder="SCAN BARCODE" autofocus required autocomplete="off" />
+                </div>
+
+                <button type="submit" class="btn-3d w-100">
+                    Get Queue Ticket <i class="bi bi-arrow-right-short mb-1 ms-1" style="font-size: 1.2em; vertical-align: middle;"></i>
+                </button>
+            </form>
+
+            <div class="mt-5 pt-3 border-top border-light">
+                <p class="small text-muted mb-0">
+                    <i class="bi bi-info-circle me-1"></i> System resets daily automatically at midnight.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+        <script>
+            // Enhanced focus management
+            const barcodeInput = document.getElementById('barcode');
+
+            function maintainFocus() {
+                if (document.activeElement !== barcodeInput) {
+                    barcodeInput.focus();
+                }
+            }
+
+            // Initial focus
+            barcodeInput.focus();
+
+            // Keep focus unless user explicitly clicks away to something interactive
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('a, button, input')) {
+                    barcodeInput.focus();
+                }
+            });
+
+            // Prevent loss of focus
+            barcodeInput.addEventListener('blur', () => {
+                 // Optional: visual cue or small delay re-focus if desired
+                 // setTimeout(maintainFocus, 100);
+            });
+        </script>
+}
