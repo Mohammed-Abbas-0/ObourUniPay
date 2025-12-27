@@ -1,71 +1,91 @@
 @{
-    ViewData["Title"] = "Start Turn";
+    ViewData["Title"] = "Identification";
 }
 
-<div class="container d-flex align-items-center justify-content-center" style="min-height: 85vh;">
-    <div class="col-md-6 col-lg-5">
-        <div class="glass-card fade-in-up text-center">
-
-            <div class="mb-4">
-                <i class="bi bi-person-badge-fill" style="font-size: 3rem; color: var(--primary-color);"></i>
+<div class="container d-flex align-items-center justify-content-center py-5" style="min-height: 85vh;">
+    <div class="booth-container animate-entrance">
+        
+        <div class="text-center mb-5">
+            <div class="d-inline-flex p-4 rounded-circle bg-white bg-opacity-5 border border-white border-opacity-10 mb-4">
+                <i class="bi bi-person-bounding-box text-white fs-1 animate-glow"></i>
             </div>
+            <h2 class="fw-700 text-white mb-2">Scanning Booth</h2>
+            <p class="text-dim small text-uppercase tracking-widest">Verify Student Identity</p>
+        </div>
 
-            <h1 class="display-title mb-2">Welcome Student</h1>
-            <p class="text-subtle mb-5">Please scan your ID barcode to generate your queue ticket.</p>
+        @if (ViewBag.Error != null)
+        {
+            <div class="glass-surface border-danger border-opacity-30 p-3 rounded-xl mb-4 text-center animate-shake" style="background: rgba(239, 68, 68, 0.05);">
+                <span class="text-danger small fw-600">
+                    <i class="bi bi-shield-exclamation me-2"></i> @ViewBag.Error
+                </span>
+            </div>
+        }
 
-            @if (ViewBag.Error != null)
-            {
-                    <div class="alert alert-danger shadow-soft border-0 mb-4 rounded-3 animate-pop">
-                        <i class="bi bi-exclamation-triangle-fill me-2"></i> @ViewBag.Error
-                    </div>
-            }
-
-            <form asp-action="GetTurn" method="post">
-                <div class="input-group-modern">
-                    <input type="text" class="input-modern"
-                        id="barcode" name="barcode"
-                        placeholder="SCAN BARCODE" autofocus required autocomplete="off" />
+        <form asp-action="GetTurn" method="post" id="boothForm">
+            <div class="mb-5 px-3">
+                <input type="text" class="neon-input" 
+                       id="barcode" name="barcode" 
+                       placeholder="000000" autofocus required autocomplete="off" />
+                <div class="text-center mt-3">
+                    <span class="text-dim small opacity-40">Place ID card near the scanner range</span>
                 </div>
-
-                <button type="submit" class="btn-3d w-100">
-                    Get Queue Ticket <i class="bi bi-arrow-right-short mb-1 ms-1" style="font-size: 1.2em; vertical-align: middle;"></i>
-                </button>
-            </form>
-
-            <div class="mt-5 pt-3 border-top border-light">
-                <p class="small text-muted mb-0">
-                    <i class="bi bi-info-circle me-1"></i> System resets daily automatically at midnight.
-                </p>
             </div>
+
+            <button type="submit" class="btn-precision w-100 py-4 fs-5">
+                Confirm Identity <i class="bi bi-fingerprint ms-2"></i>
+            </button>
+        </form>
+
+        <div class="mt-5 pt-4 border-top border-white border-opacity-5 d-flex justify-content-between align-items-center opacity-40">
+            <div class="small d-flex align-items-center">
+                <span class="rounded-circle bg-success me-2" style="width: 6px; height: 6px;"></span> Secure Node
+            </div>
+            <div class="small" id="reset-timer">--:--:--</div>
         </div>
     </div>
 </div>
 
 @section Scripts {
-        <script>
-            // Enhanced focus management
-            const barcodeInput = document.getElementById('barcode');
+    <script>
+        const barcodeInput = document.getElementById('barcode');
+        const timerEl = document.getElementById('reset-timer');
 
-            function maintainFocus() {
-                if (document.activeElement !== barcodeInput) {
-                    barcodeInput.focus();
-                }
-            }
+        // Maintain Focus
+        document.addEventListener('click', () => barcodeInput.focus());
+        barcodeInput.focus();
 
-            // Initial focus
-            barcodeInput.focus();
+        // System Timer
+        function updateTimer() {
+            const now = new Date();
+            const tomorrow = new Date();
+            tomorrow.setHours(24, 0, 0, 0);
+            const diff = tomorrow - now;
+            const h = Math.floor(diff / 3600000);
+            const m = Math.floor((diff / 60000) % 60);
+            const s = Math.floor((diff / 1000) % 60);
+            timerEl.innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
 
-            // Keep focus unless user explicitly clicks away to something interactive
-            document.addEventListener('click', (e) => {
-                if (!e.target.closest('a, button, input')) {
-                    barcodeInput.focus();
-                }
-            });
-
-            // Prevent loss of focus
-            barcodeInput.addEventListener('blur', () => {
-                 // Optional: visual cue or small delay re-focus if desired
-                 // setTimeout(maintainFocus, 100);
-            });
-        </script>
+        // Haptic-style feedback on form submit
+        document.getElementById('boothForm').onsubmit = function() {
+            const btn = this.querySelector('button');
+            btn.innerHTML = '<span class="spinner-grow spinner-grow-sm me-2"></span> Verifying...';
+            btn.style.opacity = '0.7';
+        };
+    </script>
 }
+
+<style>
+    .fw-700 { font-weight: 700; }
+    .fw-600 { font-weight: 600; }
+    
+    @@keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        75% { transform: translateX(5px); }
+    }
+    .animate-shake { animation: shake 0.4s ease-in-out; }
+</style>

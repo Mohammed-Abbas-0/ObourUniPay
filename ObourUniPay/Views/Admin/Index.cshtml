@@ -1,0 +1,146 @@
+@model List<Obour_Uni_Pay.Models.QueueTurn>
+@{
+    ViewData["Title"] = "Command Center v3";
+    var pending = Model.Count(t => t.Status == Obour_Uni_Pay.Models.TurnStatus.Pending);
+    var done = Model.Count(t => t.Status != Obour_Uni_Pay.Models.TurnStatus.Pending);
+}
+
+<div class="container py-5 mt-4">
+    
+    <!-- Top Bar -->
+    <div class="d-flex justify-content-between align-items-end mb-5 animate-entrance">
+        <div>
+            <h1 class="hero-title text-white mb-2" style="font-size: 3.5rem;">Command Center.</h1>
+            <div class="d-flex flex-wrap gap-3">
+                <p class="text-dim mb-0 d-flex align-items-center">
+                    <i class="bi bi-broadcast me-2 text-primary-brand"></i> Live Queue Stream • @DateTime.Now.ToString("dd MMM yyyy")
+                </p>
+                <a asp-action="Students" class="text-decoration-none d-flex align-items-center text-primary-brand small fw-600 hover-white">
+                    <i class="bi bi-people me-1"></i> Student Registry
+                </a>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-controller="Account" asp-action="Register" class="text-decoration-none d-flex align-items-center text-dim small fw-600 hover-white">
+                        <i class="bi bi-person-plus me-1"></i> Provision Staff
+                    </a>
+                }
+            </div>
+        </div>
+        <div class="d-none d-md-block">
+            <button class="btn-precision-outline">
+                <i class="bi bi-download me-2"></i> Export Data
+            </button>
+        </div>
+    </div>
+
+    <!-- Bento Grid v3 -->
+    <div class="bento-wrapper mb-5 animate-entrance" style="animation-delay: 0.1s;">
+        <!-- Large Stats Card -->
+        <div class="bento-card span-8 d-flex flex-column justify-content-between">
+            <div class="d-flex justify-content-between align-items-start">
+                <span class="text-dim small text-uppercase tracking-widest">Active Registry</span>
+                <i class="bi bi-activity text-primary-brand fs-4 animate-glow"></i>
+            </div>
+            <div class="mt-4">
+                <div class="display-3 fw-800 text-white">@Model.Count</div>
+                <div class="text-dim">Total Student Sessions Today</div>
+            </div>
+            <div class="mt-4 pt-3 border-top border-white border-opacity-5">
+                <div class="progress bg-white bg-opacity-5" style="height: 6px;">
+                    <div class="progress-bar bg-primary-brand" 
+                         style="width: @(Model.Count > 0 ? (done * 100 / Model.Count) : 0)%;"></div>
+                </div>
+                <div class="d-flex justify-content-between mt-2 small opacity-40">
+                    <span>Performance index</span>
+                    <span>@(Model.Count > 0 ? (done * 100 / Model.Count) : 0)% Efficiency</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Small Pending Card -->
+        <div class="bento-card span-4 bg-primary bg-opacity-5">
+            <div class="text-dim small text-uppercase tracking-widest mb-4">Pending</div>
+            <div class="display-4 fw-800 text-white mb-2">@pending</div>
+            <div class="text-primary-brand fw-600 fs-5">Active Waiting</div>
+            <p class="text-dim small mt-4 opacity-50">Students currently held in the buffer.</p>
+        </div>
+    </div>
+
+    <!-- Data Registry -->
+    <div class="glass-surface rounded-xl overflow-hidden animate-entrance" style="animation-delay: 0.2s;">
+        <div class="px-4 py-3 border-bottom border-white border-opacity-5 d-flex justify-content-between align-items-center">
+            <div class="fw-700 text-white">Registry Log</div>
+            <div class="small text-dim">Showing @Model.Count entries</div>
+        </div>
+        <div class="table-responsive">
+            <table class="precision-table">
+                <thead>
+                    <tr>
+                        <th>Turn</th>
+                        <th>Student Entity</th>
+                        <th>Department</th>
+                        <th>Contact Matrix</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Any())
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center py-5">
+                                <div class="opacity-20 mb-3">
+                                    <i class="bi bi-layers fs-1"></i>
+                                </div>
+                                <div class="text-dim small">No entities detected in current cycle.</div>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <span class="fs-5 fw-700 text-white">#@item.TurnNumber</span>
+                                </td>
+                                <td>
+                                    <div class="fw-600 text-white">@item.Student?.Name</div>
+                                    <div class="small text-dim opacity-50">@item.Student?.Barcode • @item.Student?.Gender</div>
+                                </td>
+                                <td>
+                                    <div class="text-white small">@item.Student?.Department</div>
+                                    <div class="small text-dim opacity-50">Stage @item.Student?.Stage</div>
+                                </td>
+                                <td>
+                                    <div class="small text-dim">@item.Student?.Email</div>
+                                    <div class="small text-dim opacity-50">@item.Student?.PhoneNumber</div>
+                                </td>
+                                <td>
+                                    @if (item.Status == Obour_Uni_Pay.Models.TurnStatus.Pending)
+                                    {
+                                        <span class="badge rounded-pill bg-white bg-opacity-5 border border-white border-opacity-10 text-white px-3 py-2">
+                                            <i class="bi bi-clock-history me-1 text-primary-brand"></i> Pending
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge rounded-pill bg-success bg-opacity-10 border border-success border-opacity-20 text-success px-3 py-2">
+                                            <i class="bi bi-check-circle me-1"></i> Complete
+                                        </span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .fw-800 { font-weight: 800; }
+    .fw-700 { font-weight: 700; }
+    .fw-600 { font-weight: 600; }
+    .text-primary-brand { color: var(--primary-brand); }
+</style>

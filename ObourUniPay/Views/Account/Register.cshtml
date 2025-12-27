@@ -1,0 +1,66 @@
+@model Obour_Uni_Pay.Models.ViewModels.RegisterViewModel
+@{
+    ViewData["Title"] = "Provision Staff Account";
+}
+
+<div class="container py-5 mt-4">
+    <div class="d-flex justify-content-between align-items-end mb-5 animate-entrance">
+        <div>
+            <h1 class="hero-title text-white mb-2" style="font-size: 3rem;">Provisioning.</h1>
+            <p class="text-dim mb-0">Create new staff entities for the local registry.</p>
+        </div>
+        <a asp-controller="Admin" asp-action="Index" class="btn-precision-outline">
+            <i class="bi bi-x-lg me-2"></i> Cancel
+        </a>
+    </div>
+
+    <div class="glass-surface p-5 rounded-xl animate-entrance" style="max-width: 600px; margin: 0 auto;">
+        <form asp-action="Register" method="post">
+            <div asp-validation-summary="All" class="text-danger small mb-4"></div>
+
+            <div class="mb-4">
+                <label asp-for="Email" class="form-label text-dim small fw-600 mb-2">ASSIGNED EMAIL</label>
+                <input asp-for="Email"
+                    class="form-control bg-white bg-opacity-5 border-white border-opacity-10 text-white py-3 rounded-md"
+                    required />
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Password" class="form-label text-dim small fw-600 mb-2">INITIAL ACCESS TOKEN</label>
+                <input asp-for="Password"
+                    class="form-control bg-white bg-opacity-5 border-white border-opacity-10 text-white py-3 rounded-md"
+                    required />
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="ConfirmPassword" class="form-label text-dim small fw-600 mb-2">VERIFY TOKEN</label>
+                <input asp-for="ConfirmPassword"
+                    class="form-control bg-white bg-opacity-5 border-white border-opacity-10 text-white py-3 rounded-md"
+                    required />
+            </div>
+
+            <div class="mb-5">
+                <label asp-for="Role" class="form-label text-dim small fw-600 mb-2">ACCESS CLEARANCE (ROLE)</label>
+                <select asp-for="Role"
+                    class="form-select bg-white bg-opacity-5 border-white border-opacity-10 text-white py-3 rounded-md">
+                    <option value="Staff" class="bg-dark">Staff (Registry View Only)</option>
+                    <option value="Admin" class="bg-dark">Admin (Full Control)</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-precision w-100 py-3">
+                Register Entity <i class="bi bi-plus-lg ms-2"></i>
+            </button>
+        </form>
+    </div>
+</div>
+
+<style>
+    .form-control:focus,
+    .form-select:focus {
+        background: rgba(255, 255, 255, 0.08) !important;
+        border-color: var(--primary-brand);
+        box-shadow: 0 0 20px var(--primary-glow);
+        color: white;
+    }
+</style>

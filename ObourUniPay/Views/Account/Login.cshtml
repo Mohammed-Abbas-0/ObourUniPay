@@ -1,0 +1,61 @@
+@model Obour_Uni_Pay.Models.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Staff Authentication";
+    Layout = "_Layout";
+}
+
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+    <div class="booth-container animate-entrance" style="max-width: 400px;">
+        
+        <div class="text-center mb-5">
+            <div class="d-inline-flex p-4 rounded-circle bg-white bg-opacity-5 border border-white border-opacity-10 mb-4">
+                <i class="bi bi-shield-lock text-white fs-1"></i>
+            </div>
+            <h2 class="fw-700 text-white mb-2">Internal Access</h2>
+            <p class="text-dim small text-uppercase tracking-widest">Unauthorized entry is prohibited</p>
+        </div>
+
+        <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" id="loginForm">
+            <div asp-validation-summary="All" class="text-danger small mb-4"></div>
+            
+            <div class="mb-4">
+                <label asp-for="Email" class="form-label text-dim small fw-600 mb-2">STAFF IDENTITY (EMAIL)</label>
+                <input asp-for="Email" class="form-control bg-white bg-opacity-5 border-white border-opacity-10 text-white py-3 rounded-md" 
+                       placeholder="name@obour.edu" required />
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Password" class="form-label text-dim small fw-600 mb-2">ACCESS TOKEN (PASSWORD)</label>
+                <input asp-for="Password" class="form-control bg-white bg-opacity-5 border-white border-opacity-10 text-white py-3 rounded-md" 
+                       placeholder="••••••••" required />
+            </div>
+
+            <div class="mb-5 d-flex align-items-center">
+                <div class="form-check">
+                    <input asp-for="RememberMe" class="form-check-input bg-dark border-white border-opacity-20" />
+                    <label asp-for="RememberMe" class="form-check-label text-dim small">Persist session</label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-precision w-100 py-3">
+                Authorize Access <i class="bi bi-arrow-right-short ms-1"></i>
+            </button>
+        </form>
+
+        <div class="mt-5 pt-4 border-top border-white border-opacity-5 text-center">
+            <a asp-controller="Home" asp-action="Index" class="text-dim small text-decoration-none hover-white">
+                <i class="bi bi-arrow-left me-1"></i> Return to Terminal
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .rounded-md { border-radius: 12px; }
+    .form-control:focus {
+        background: rgba(255,255,255,0.08) !important;
+        border-color: var(--primary-brand);
+        box-shadow: 0 0 20px var(--primary-glow);
+        color: white;
+    }
+</style>
