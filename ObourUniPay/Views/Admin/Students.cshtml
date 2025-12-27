@@ -1,34 +1,42 @@
 @model List<Obour_Uni_Pay.Models.Student>
 @{
-    ViewData["Title"] = "Student Registry";
+    ViewData["Title"] = "سجل الطلاب";
 }
 
-<div class="container py-5 mt-4">
-    <div class="d-flex justify-content-between align-items-end mb-5 animate-entrance">
+<div class="container section-py animate-fade-in">
+    <!-- Registry Header -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-5 gap-3">
         <div>
-            <h1 class="hero-title text-white mb-2" style="font-size: 3rem;">Student Registry.</h1>
-            <p class="text-dim mb-0">Manage university student identities and clearance.</p>
+            <h1 class="display-4 fw-800 text-main mb-2">سجل الطلاب</h1>
+            <p class="text-muted mb-0">إدارة هويات الطلاب والتحقق من البيانات الأكاديمية.</p>
         </div>
-        <a asp-action="CreateStudent" class="btn-precision">
-            <i class="bi bi-person-plus me-2"></i> Enroll Student
+        <a asp-action="CreateStudent" class="btn-modern">
+            <i class="bi bi-person-plus ms-2"></i> تسجيل طالب جديد
         </a>
     </div>
 
-    <div class="glass-surface rounded-xl overflow-hidden animate-entrance" style="animation-delay: 0.1s;">
+    <!-- Registry Card (Bento Style) -->
+    <div class="card-clean p-0 overflow-hidden" style="background: #ffffff;">
         <div
-            class="px-4 py-3 border-bottom border-white border-opacity-5 d-flex justify-content-between align-items-center">
-            <div class="fw-700 text-white">Full Registry Log</div>
-            <div class="small text-dim">Total: @Model.Count Students</div>
+            class="p-4 border-bottom border-dark border-opacity-5 d-flex justify-content-between align-items-center bg-light bg-opacity-50">
+            <div>
+                <div class="fw-800 text-main">سجل البيانات الكامل</div>
+                <div class="small text-muted fw-600">الإجمالي: @Model.Count طالب</div>
+            </div>
+            <a asp-action="FixData"
+                class="btn-modern-outline py-2 px-3 small border-warning text-warning text-decoration-none">
+                <i class="bi bi-magic ms-1"></i> تصحيح البيانات القديمة
+            </a>
         </div>
         <div class="table-responsive">
-            <table class="precision-table">
+            <table class="table-simple">
                 <thead>
                     <tr>
-                        <th>Barcode/ID</th>
-                        <th>Student Name</th>
-                        <th>Department & Stage</th>
-                        <th>Contact</th>
-                        <th>Actions</th>
+                        <th class="fw-700">الباركود / الهوية</th>
+                        <th class="fw-700">اسم الطالب</th>
+                        <th class="fw-700">القسم والسنة</th>
+                        <th class="fw-700">بيانات التواصل</th>
+                        <th class="fw-700">العمليات</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,29 +44,32 @@
                     {
                         <tr>
                             <td>
-                                <code class="text-primary-brand fw-bold">@item.Barcode</code>
+                                <code
+                                    class="text-primary-app fw-700 bg-light px-2 py-1 rounded border border-dark border-opacity-5">@item.Barcode</code>
                             </td>
                             <td>
-                                <div class="fw-600 text-white">@item.Name</div>
-                                <div class="small text-dim opacity-50">@item.Gender</div>
+                                <div class="fw-800 text-main">@item.Name</div>
+                                <div class="small text-muted fw-600">@(item.Gender == "Male" ? "ذكر" : "أنثى")</div>
                             </td>
                             <td>
-                                <div class="text-white small">@item.Department</div>
-                                <div class="small text-dim opacity-50">Stage @item.Stage</div>
+                                <div class="text-main fw-700">@(item.Department?.Name ?? "غير محدد")</div>
+                                <div class="small text-muted fw-600">@item.Stage</div>
                             </td>
                             <td>
-                                <div class="small text-dim">@item.Email</div>
-                                <div class="small text-dim opacity-50">@item.PhoneNumber</div>
+                                <div class="small text-main fw-700">@item.Email</div>
+                                <div class="small text-muted fw-600">@item.PhoneNumber</div>
                             </td>
                             <td>
-                                <div class="btn-group">
+                                <div class="d-flex gap-2">
                                     <a asp-action="EditStudent" asp-route-id="@item.Id"
-                                        class="btn btn-sm text-white opacity-40 hover-opacity-100">
+                                        class="btn btn-sm text-dark opacity-50 hover-opacity-100 p-0 fs-5">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                     <form asp-action="DeleteStudent" asp-route-id="@item.Id" method="post"
-                                        onsubmit="return confirm('Archive this student record?');">
-                                        <button type="submit" class="btn btn-sm text-danger opacity-40 hover-opacity-100">
+                                        onsubmit="return confirm('هل أنت متأكد من أرشفة سجل هذا الطالب؟');"
+                                        class="d-inline">
+                                        <button type="submit"
+                                            class="btn btn-sm text-danger opacity-50 hover-opacity-100 p-0 fs-5 border-0 bg-transparent">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </form>
@@ -73,16 +84,12 @@
 </div>
 
 <style>
+    .fw-800 {
+        font-weight: 800;
+    }
+
     .fw-700 {
         font-weight: 700;
-    }
-
-    .fw-600 {
-        font-weight: 600;
-    }
-
-    .text-primary-brand {
-        color: var(--primary-brand);
     }
 
     .hover-opacity-100:hover {

@@ -60,6 +60,7 @@ namespace Obour_Uni_Pay.Services
             var today = DateTime.Today;
             return await _context.QueueTurns
                 .Include(t => t.Student)
+                    .ThenInclude(s => s!.Department)
                 .Where(t => t.CreatedAt >= today)
                 .OrderBy(t => t.TurnNumber)
                 .ToListAsync();
@@ -69,6 +70,7 @@ namespace Obour_Uni_Pay.Services
         {
             return await _context.QueueTurns
                 .Include(t => t.Student)
+                    .ThenInclude(s => s!.Department)
                 .FirstOrDefaultAsync(t => t.Id == turnId);
         }
 
@@ -77,6 +79,7 @@ namespace Obour_Uni_Pay.Services
             var today = DateTime.Today;
             return await _context.QueueTurns
                 .Include(t => t.Student)
+                    .ThenInclude(s => s!.Department)
                 .Where(t => t.CreatedAt >= today && t.Status == TurnStatus.Pending)
                 .OrderBy(t => t.TurnNumber)
                 .FirstOrDefaultAsync();

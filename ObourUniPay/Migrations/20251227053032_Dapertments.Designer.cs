@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Obour_Uni_Pay.Data;
 
@@ -11,9 +12,11 @@ using Obour_Uni_Pay.Data;
 namespace ObourUniPay.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251227053032_Dapertments")]
+    partial class Dapertments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -235,7 +238,7 @@ namespace ObourUniPay.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments", (string)null);
+                    b.ToTable("Departments");
 
                     b.HasData(
                         new
@@ -284,7 +287,7 @@ namespace ObourUniPay.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("QueueTurns", (string)null);
+                    b.ToTable("QueueTurns");
                 });
 
             modelBuilder.Entity("Obour_Uni_Pay.Models.Student", b =>
@@ -325,7 +328,7 @@ namespace ObourUniPay.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Students", (string)null);
+                    b.ToTable("Students");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

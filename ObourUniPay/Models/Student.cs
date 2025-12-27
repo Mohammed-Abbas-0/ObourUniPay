@@ -18,7 +18,8 @@ namespace Obour_Uni_Pay.Models
         [Required]
         public string Barcode { get; set; }
 
-        public string? Department { get; set; }
+        public int? DepartmentId { get; set; }
+        public Department? Department { get; set; }
 
         public string? Stage { get; set; }
 

@@ -1,96 +1,85 @@
 @model Obour_Uni_Pay.Models.Student
 @{
-    ViewData["Title"] = "Update Identity";
+    ViewData["Title"] = "تحديث بيانات الطالب";
 }
 
 <div class="container py-5 mt-4">
-    <div class="d-flex justify-content-between align-items-end mb-5 animate-entrance">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-5 gap-3 animate-entrance">
         <div>
-            <h1 class="hero-title text-white mb-2" style="font-size: 3rem;">Update.</h1>
-            <p class="text-dim mb-0">Modify student identity parameters.</p>
+            <h1 class="display-4 fw-900 text-main mb-2">تحديث السجل.</h1>
+            <p class="text-muted mb-0 fw-500">تعديل معايير هوية الطالب الأكاديمية.</p>
         </div>
-        <a asp-action="Students" class="btn-precision-outline">
-            <i class="bi bi-x-lg me-2"></i> Cancel
+        <a asp-action="Students" class="btn-modern-outline">
+            <i class="bi bi-x-lg ms-2"></i> إلغاء العملية
         </a>
     </div>
 
-    <div class="glass-surface p-5 rounded-xl animate-entrance" style="max-width: 800px; margin: 0 auto;">
+    <div class="card-clean p-4 p-md-5 mx-auto" style="max-width: 800px; background: #ffffff;">
         <form asp-action="EditStudent" method="post">
             <input type="hidden" asp-for="Id" />
             <div asp-validation-summary="All" class="text-danger small mb-4"></div>
 
             <div class="row">
                 <div class="col-md-6 mb-4">
-                    <label asp-for="Name" class="form-label text-dim small fw-600 mb-2">FULL NAME</label>
-                    <input asp-for="Name"
-                        class="form-control bg-white bg-opacity-5 border-white border-opacity-10 text-white py-3 rounded-md"
-                        required />
+                    <label asp-for="Name" class="form-label-clean">الاسم الكامل</label>
+                    <input asp-for="Name" class="form-control-clean py-3" required />
                 </div>
                 <div class="col-md-6 mb-4">
-                    <label asp-for="Barcode" class="form-label text-dim small fw-600 mb-2">BARCODE / ID</label>
-                    <input asp-for="Barcode"
-                        class="form-control bg-white bg-opacity-5 border-white border-opacity-10 text-white py-3 rounded-md"
-                        required />
+                    <label asp-for="Barcode" class="form-label-clean">الباركود / رقم الهوية</label>
+                    <input asp-for="Barcode" class="form-control-clean py-3" required />
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-6 mb-4">
-                    <label asp-for="Email" class="form-label text-dim small fw-600 mb-2">INSTITUTIONAL EMAIL</label>
-                    <input asp-for="Email"
-                        class="form-control bg-white bg-opacity-5 border-white border-opacity-10 text-white py-3 rounded-md" />
+                    <label asp-for="Email" class="form-label-clean">البريد الإلكتروني الجامعي</label>
+                    <input asp-for="Email" class="form-control-clean py-3" />
                 </div>
                 <div class="col-md-6 mb-4">
-                    <label asp-for="PhoneNumber" class="form-label text-dim small fw-600 mb-2">CONTACT NUMBER</label>
-                    <input asp-for="PhoneNumber"
-                        class="form-control bg-white bg-opacity-5 border-white border-opacity-10 text-white py-3 rounded-md" />
+                    <label asp-for="PhoneNumber" class="form-label-clean">رقم التواصل</label>
+                    <input asp-for="PhoneNumber" class="form-control-clean py-3" />
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-4 mb-4">
-                    <label asp-for="Department" class="form-label text-dim small fw-600 mb-2">DEPARTMENT</label>
-                    <input asp-for="Department"
-                        class="form-control bg-white bg-opacity-5 border-white border-opacity-10 text-white py-3 rounded-md" />
+                    <label asp-for="DepartmentId" class="form-label-clean">القسم الأكاديمي</label>
+                    <select asp-for="DepartmentId" asp-items="@(ViewBag.Departments as SelectList)" class="form-control-clean py-3">
+                        <option value="">-- اختر القسم --</option>
+                    </select>
                 </div>
                 <div class="col-md-4 mb-4">
-                    <label asp-for="Stage" class="form-label text-dim small fw-600 mb-2">ACADEMIC STAGE</label>
-                    <input asp-for="Stage"
-                        class="form-control bg-white bg-opacity-5 border-white border-opacity-10 text-white py-3 rounded-md" />
+                    <label asp-for="Stage" class="form-label-clean">المرحلة الدراسية</label>
+                    <select asp-for="Stage" class="form-control-clean py-3">
+                        <option value="">-- اختر المرحلة --</option>
+                        <option value="المرحلة الأولى">المرحلة الأولى</option>
+                        <option value="المرحلة الثانية">المرحلة الثانية</option>
+                        <option value="المرحلة الثالثة">المرحلة الثالثة</option>
+                        <option value="المرحلة الرابعة">المرحلة الرابعة</option>
+                        <option value="المرحلة الخامسة">المرحلة الخامسة (للهندسة)</option>
+                    </select>
                 </div>
                 <div class="col-md-4 mb-4">
-                    <label asp-for="Gender" class="form-label text-dim small fw-600 mb-2">GENDER</label>
-                    <select asp-for="Gender"
-                        class="form-select bg-white bg-opacity-5 border-white border-opacity-10 text-white py-3 rounded-md">
-                        <option value="Male" class="bg-dark">Male</option>
-                        <option value="Female" class="bg-dark">Female</option>
+                    <label asp-for="Gender" class="form-label-clean">الجنس</label>
+                    <select asp-for="Gender" class="form-control-clean py-3">
+                        <option value="Male">ذكر</option>
+                        <option value="Female">أنثى</option>
                     </select>
                 </div>
             </div>
 
             <div class="mb-4">
-                <label asp-for="BirthDate" class="form-label text-dim small fw-600 mb-2">DATE OF BIRTH</label>
-                <input asp-for="BirthDate" type="date"
-                    class="form-control bg-white bg-opacity-5 border-white border-opacity-10 text-white py-3 rounded-md" />
+                <label asp-for="BirthDate" class="form-label-clean">تاريخ الميلاد</label>
+                <input asp-for="BirthDate" type="date" class="form-control-clean py-3" />
             </div>
 
-            <button type="submit" class="btn-precision w-100 py-4 mt-4">
-                Update Record <i class="bi bi-arrow-repeat ms-2"></i>
+            <button type="submit" class="btn-modern w-100 py-4 mt-4 fs-5">
+                تحديث السجل <i class="bi bi-arrow-repeat ms-2"></i>
             </button>
         </form>
     </div>
 </div>
 
 <style>
-    .form-control:focus,
-    .form-select:focus {
-        background: rgba(255, 255, 255, 0.08) !important;
-        border-color: var(--primary-brand);
-        box-shadow: 0 0 20px var(--primary-glow);
-        color: white;
-    }
-
-    .rounded-md {
-        border-radius: 12px;
-    }
+    .fw-900 { font-weight: 900; }
 </style>

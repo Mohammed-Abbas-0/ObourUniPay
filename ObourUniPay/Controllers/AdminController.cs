@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Obour_Uni_Pay.Data;
 using Obour_Uni_Pay.Models;
@@ -21,26 +22,26 @@ namespace Obour_Uni_Pay.Controllers
             var today = DateTime.Today;
             var turns = await _context.QueueTurns
                 .Include(t => t.Student)
+                    .ThenInclude(s => s!.Department)
                 .Where(t => t.CreatedAt >= today)
                 .OrderByDescending(t => t.CreatedAt)
                 .ToListAsync();
-            if (!turns.Any())
-            {
-                ViewBag.Message = "No queue turns found for today.";
-                return View(new List<QueueTurn>());
-            }
+
             return View(turns);
         }
 
         public async Task<IActionResult> Students()
         {
-            var students = await _context.Students.ToListAsync();
+            var students = await _context.Students
+                .Include(s => s.Department)
+                .ToListAsync();
             return View(students);
         }
 
         [HttpGet]
-        public IActionResult CreateStudent()
+        public async Task<IActionResult> CreateStudent()
         {
+            ViewBag.Departments = new SelectList(await _context.Departments.ToListAsync(), "Id", "Name");
             return View();
         }
 
@@ -54,6 +55,7 @@ namespace Obour_Uni_Pay.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Students));
             }
+            ViewBag.Departments = new SelectList(await _context.Departments.ToListAsync(), "Id", "Name", student.DepartmentId);
             return View(student);
         }
 
@@ -62,6 +64,8 @@ namespace Obour_Uni_Pay.Controllers
         {
             var student = await _context.Students.FindAsync(id);
             if (student == null) return NotFound();
+
+            ViewBag.Departments = new SelectList(await _context.Departments.ToListAsync(), "Id", "Name", student.DepartmentId);
             return View(student);
         }
 
@@ -75,6 +79,7 @@ namespace Obour_Uni_Pay.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Students));
             }
+            ViewBag.Departments = new SelectList(await _context.Departments.ToListAsync(), "Id", "Name", student.DepartmentId);
             return View(student);
         }
 
@@ -88,6 +93,19 @@ namespace Obour_Uni_Pay.Controllers
                 _context.Students.Remove(student);
                 await _context.SaveChangesAsync();
             }
+            return RedirectToAction(nameof(Students));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> FixData()
+        {
+            var students = await _context.Students.Where(s => s.DepartmentId == null).ToListAsync();
+            foreach (var s in students)
+            {
+                s.DepartmentId = 1; // هندسة الحاسبات
+                s.Stage = "المرحلة الرابعة";
+            }
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Students));
         }
     }

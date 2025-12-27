@@ -1,166 +1,129 @@
 @model Obour_Uni_Pay.Models.QueueTurn
 @{
-    ViewData["Title"] = "Your Ticket";
-    Layout = "_Layout";
+    ViewData["Title"] = "تذكرتك الرقمية";
 }
 
-<style>
-    .scene {
-        perspective: 1000px;
-    }
-
-    .ticket-3d-wrapper {
-        transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-        transform-style: preserve-3d;
-    }
-
-    .ticket-3d-wrapper:hover {
-        transform: rotateX(5deg) rotateY(10deg);
-    }
-
-    .ticket-paper {
-        background: #fff;
-        border-radius: var(--radius-lg);
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
-        mask-image: radial-gradient(circle at 0 72%, transparent 20px, black 21px),
-            radial-gradient(circle at 100% 72%, transparent 20px, black 21px);
-        -webkit-mask-image: radial-gradient(circle at 0 72%, transparent 20px, black 21px),
-            radial-gradient(circle at 100% 72%, transparent 20px, black 21px);
-    }
-
-    .ticket-header {
-        background: var(--gradient-primary);
-        padding: 2rem;
-        color: white;
-        position: relative;
-    }
-
-    .ticket-header::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.1) 40%, rgba(255, 255, 255, 0.1) 60%, transparent 60%);
-        background-size: 20px 20px;
-        opacity: 0.3;
-    }
-
-    .ticket-body {
-        padding: 2.5rem;
-    }
-
-    .dashed-line {
-        border-top: 3px dashed #dfe6e9;
-        margin: 2rem 0;
-        position: relative;
-    }
-
-    .holographic-number {
-        font-size: 5rem;
-        font-weight: 800;
-        background: linear-gradient(135deg, #6c5ce7, #00cec9, #6c5ce7);
-        background-size: 200% auto;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: shine 3s linear infinite;
-        line-height: 1;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    @@keyframes shine {
-        to {
-            background-position: 200% center;
-        }
-    }
-
-    .detail-row {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 0.8rem;
-        font-size: 1.1rem;
-    }
-
-    .detail-label {
-        color: var(--text-secondary);
-        font-weight: 500;
-    }
-
-    .detail-value {
-        color: var(--text-main);
-        font-weight: 700;
-    }
-</style>
-
-<div class="container d-flex align-items-center justify-content-center scene" style="min-height: 85vh;">
-    <div class="col-md-5 col-lg-4">
-
-        <div class="ticket-3d-wrapper animate-pop">
-            <div class="ticket-paper">
-                <div class="ticket-header text-center">
-                    <h4 class="m-0 fw-bold text-uppercase" style="letter-spacing: 2px;">Obour University</h4>
-                    <p class="m-0 opacity-75 small text-uppercase" style="letter-spacing: 1px;">Student Queue Ticket</p>
+<div class="container section-py animate-fade-in">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="card-clean p-0 overflow-hidden shadow-premium border-primary-app border-opacity-10"
+                style="background: #ffffff;">
+                <!-- Ticket Header -->
+                <div class="bg-soft-indigo p-4 text-center border-bottom border-dark border-opacity-5">
+                    <span
+                        class="btn-modern-outline bg-white border-dark border-opacity-10 py-1 px-3 fs-6 d-inline-flex mb-3 text-uppercase tracking-widest shadow-sm">
+                        تذكرة دور الجامعية
+                    </span>
+                    <h1 class="display-1 m-0 text-primary-app" style="font-weight: 900; letter-spacing: -2px;">
+                        @Model.TurnNumber</h1>
+                    <p class="text-muted fw-700 mb-0 small text-uppercase">رقم دورك الآن</p>
                 </div>
 
-                <div class="ticket-body text-center">
-
-                    <p class="text-secondary text-uppercase mb-2 small fw-bold tracking-wider">Your Number</p>
-                    <h1 class="holographic-number mb-4">@Model.TurnNumber</h1>
-
-                    <div class="bg-light p-4 rounded-4 mb-4" style="text-align: left;">
-                        <div class="detail-row">
-                            <span class="detail-label">Student</span>
-                            <span class="detail-value text-end text-truncate w-50">@Model.Student?.Name</span>
+                <!-- Ticket Content -->
+                <div class="p-4">
+                    <div class="bg-light rounded-4 p-4 mb-4 border border-dark border-opacity-5">
+                        <div
+                            class="d-flex justify-content-between mb-3 pb-3 border-bottom border-dark border-opacity-5">
+                            <span class="text-muted fw-600">اسم الطالب</span>
+                            <span class="fw-800 text-main">@Model.Student?.Name</span>
                         </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Dept</span>
-                            <span class="detail-value text-end">@Model.Student?.Department</span>
+                        <div
+                            class="d-flex justify-content-between mb-3 pb-3 border-bottom border-dark border-opacity-5">
+                            <span class="text-muted fw-600">القسم / التخصص</span>
+                            <span class="fw-800 text-main">@(Model.Student?.Department?.Name ?? "غير محدد")</span>
                         </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Gender</span>
-                            <span class="detail-value text-end">@Model.Student?.Gender</span>
+                        <div
+                            class="d-flex justify-content-between mb-3 pb-3 border-bottom border-dark border-opacity-5">
+                            <span class="text-muted fw-600">المرحلة الدراسية</span>
+                            <span class="fw-800 text-main">@(Model.Student?.Stage ?? "غير محدد")</span>
                         </div>
-                        <div class="dashed-line my-3"></div>
-                        <div class="detail-row mb-0">
-                            <span class="detail-label"><i class="bi bi-clock me-1"></i> Issued</span>
-                            <span class="detail-value">@Model.CreatedAt.ToString("hh:mm tt")</span>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted fw-600">وقت الإصدار</span>
+                            <span class="fw-800 text-main">@Model.CreatedAt.ToString("hh:mm tt").Replace("AM",
+                                "صباحاً").Replace("PM", "مساءً")</span>
                         </div>
                     </div>
 
-                    <div class="d-grid gap-2 d-print-none">
-                        <button onclick="window.print()"
-                            class="btn btn-light shadow-sm text-primary fw-bold py-3 rounded-pill">
-                            <i class="bi bi-printer me-2"></i> Print Ticket
-                        </button>
-                        <a asp-action="Index" class="btn btn-3d rounded-pill shadow-sm">
-                            Next Student <i class="bi bi-arrow-right ms-2"></i>
-                        </a>
+                    <div class="text-center">
+                        <p class="text-muted small mb-4 px-4 fw-500">
+                            برجاء البقاء بالقرب من مكتب الخدمة. سيتم مناداة رقم دورك قريباً عبر شاشات العرض.
+                        </p>
+
+                        <!-- Action Buttons -->
+                        <div class="d-grid gap-3 d-print-none">
+                            <button onclick="window.print()" class="btn-modern w-100 py-3">
+                                <i class="bi bi-printer ms-2"></i> طباعة التذكرة
+                            </button>
+                            <a asp-action="Index" class="btn-modern-outline w-100 py-3">
+                                تسجيل جديد <i class="bi bi-arrow-left-short ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ticket Footer Art -->
+                <div class="p-3 bg-light text-center">
+                    <div class="text-muted opacity-50 small fw-bold tracking-widest">
+                        Obour Digital System • Obour University
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
-@section Scripts {
-    <script>
-        // Add subtle tilt effect tracking
-        const card = document.querySelector('.ticket-3d-wrapper');
-        const container = document.querySelector('.scene');
+<style>
+    .fw-500 {
+        font-weight: 500;
+    }
 
-        container.addEventListener('mousemove', (e) => {
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-        });
+    .fw-800 {
+        font-weight: 800;
+    }
 
-        // Reset on leave
-        container.addEventListener('mouseleave', () => {
-            card.style.transform = `rotateY(0deg) rotateX(0deg)`;
-        });
-    </script>
-}
+    @@media print {
+        body {
+            background: white !important;
+            color: black !important;
+            direction: rtl !important;
+        }
+
+        .section-py {
+            padding: 0 !important;
+        }
+
+        .container {
+            padding: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+
+        .card-clean {
+            border: 1px solid #eee !important;
+            box-shadow: none !important;
+            background: white !important;
+            border-radius: 0 !important;
+        }
+
+        .bg-soft-indigo,
+        .bg-light {
+            background: transparent !important;
+            border: 1px solid #f0f0f0 !important;
+        }
+
+        .text-primary-app,
+        .text-muted,
+        .text-main {
+            color: black !important;
+        }
+
+        .d-print-none {
+            display: none !important;
+        }
+
+        .display-1 {
+            font-size: 8rem !important;
+            margin: 20px 0 !important;
+        }
+    }
+</style>

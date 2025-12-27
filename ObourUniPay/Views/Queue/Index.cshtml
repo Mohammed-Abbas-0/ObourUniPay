@@ -1,47 +1,46 @@
 @{
-    ViewData["Title"] = "Identification";
+    ViewData["Title"] = "تسجيل الدخول";
 }
 
-<div class="container d-flex align-items-center justify-content-center py-5" style="min-height: 85vh;">
-    <div class="booth-container animate-entrance">
-        
-        <div class="text-center mb-5">
-            <div class="d-inline-flex p-4 rounded-circle bg-white bg-opacity-5 border border-white border-opacity-10 mb-4">
-                <i class="bi bi-person-bounding-box text-white fs-1 animate-glow"></i>
-            </div>
-            <h2 class="fw-700 text-white mb-2">Scanning Booth</h2>
-            <p class="text-dim small text-uppercase tracking-widest">Verify Student Identity</p>
-        </div>
-
-        @if (ViewBag.Error != null)
-        {
-            <div class="glass-surface border-danger border-opacity-30 p-3 rounded-xl mb-4 text-center animate-shake" style="background: rgba(239, 68, 68, 0.05);">
-                <span class="text-danger small fw-600">
-                    <i class="bi bi-shield-exclamation me-2"></i> @ViewBag.Error
-                </span>
-            </div>
-        }
-
-        <form asp-action="GetTurn" method="post" id="boothForm">
-            <div class="mb-5 px-3">
-                <input type="text" class="neon-input" 
-                       id="barcode" name="barcode" 
-                       placeholder="000000" autofocus required autocomplete="off" />
-                <div class="text-center mt-3">
-                    <span class="text-dim small opacity-40">Place ID card near the scanner range</span>
+<div class="container section-py animate-fade-in">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card-clean text-center">
+                <div class="mb-4">
+                    <div class="bg-soft-indigo d-inline-flex p-4 rounded-circle text-primary-app mb-3">
+                        <i class="bi bi-person-check-fill fs-1"></i>
+                    </div>
+                    <h2 class="fw-700">هوية الطالب</h2>
+                    <p class="text-muted">امسح كارت الطالب أو ادخل رقم الباركود للمتابعة.</p>
                 </div>
-            </div>
 
-            <button type="submit" class="btn-precision w-100 py-4 fs-5">
-                Confirm Identity <i class="bi bi-fingerprint ms-2"></i>
-            </button>
-        </form>
+                <!-- Error Display -->
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger border-0 bg-danger bg-opacity-10 text-danger rounded-4 mb-4">
+                        <i class="bi bi-exclamation-circle-fill ms-2"></i> @ViewBag.Error
+                    </div>
+                }
 
-        <div class="mt-5 pt-4 border-top border-white border-opacity-5 d-flex justify-content-between align-items-center opacity-40">
-            <div class="small d-flex align-items-center">
-                <span class="rounded-circle bg-success me-2" style="width: 6px; height: 6px;"></span> Secure Node
+                <form asp-action="GetTurn" method="post" id="loginForm" class="text-start">
+                    <div class="mb-4">
+                        <label for="barcode" class="form-label-clean">باركود الطالب / رقم الهوية</label>
+                        <input type="text" class="form-control-clean fs-4 text-center fw-700 py-3" 
+                               id="barcode" name="barcode" 
+                               placeholder="امسح أو اكتب هنا..." autofocus required autocomplete="off" />
+                    </div>
+
+                    <button type="submit" class="btn-modern w-100 py-3 fs-5">
+                         تأكيد الهوية وإصدار التذكرة <i class="bi bi-arrow-left-short ms-2"></i>
+                    </button>
+                    
+                    <div class="text-center mt-4">
+                        <p class="text-muted small">
+                            يتم إعادة تعيين السجلات تلقائياً كل منتصف ليل.
+                        </p>
+                    </div>
+                </form>
             </div>
-            <div class="small" id="reset-timer">--:--:--</div>
         </div>
     </div>
 </div>
@@ -49,43 +48,12 @@
 @section Scripts {
     <script>
         const barcodeInput = document.getElementById('barcode');
-        const timerEl = document.getElementById('reset-timer');
-
-        // Maintain Focus
         document.addEventListener('click', () => barcodeInput.focus());
-        barcodeInput.focus();
-
-        // System Timer
-        function updateTimer() {
-            const now = new Date();
-            const tomorrow = new Date();
-            tomorrow.setHours(24, 0, 0, 0);
-            const diff = tomorrow - now;
-            const h = Math.floor(diff / 3600000);
-            const m = Math.floor((diff / 60000) % 60);
-            const s = Math.floor((diff / 1000) % 60);
-            timerEl.innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-        }
-        setInterval(updateTimer, 1000);
-        updateTimer();
-
-        // Haptic-style feedback on form submit
-        document.getElementById('boothForm').onsubmit = function() {
+        
+        document.getElementById('loginForm').onsubmit = function() {
             const btn = this.querySelector('button');
-            btn.innerHTML = '<span class="spinner-grow spinner-grow-sm me-2"></span> Verifying...';
-            btn.style.opacity = '0.7';
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm ms-2"></span> جاري التحقق...';
+            btn.disabled = true;
         };
     </script>
 }
-
-<style>
-    .fw-700 { font-weight: 700; }
-    .fw-600 { font-weight: 600; }
-    
-    @@keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        25% { transform: translateX(-5px); }
-        75% { transform: translateX(5px); }
-    }
-    .animate-shake { animation: shake 0.4s ease-in-out; }
-</style>
