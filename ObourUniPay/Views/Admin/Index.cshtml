@@ -75,16 +75,19 @@
                 <div class="modal-body text-center p-5">
                     <h4 class="fw-900 mb-4 text-main">رمز الدخول للبوابة</h4>
                     <div class="bg-light p-4 rounded-4 shadow-sm d-inline-block mb-4 border border-light">
-                        <img src="/images/portal_qr.png" alt="Portal QR" class="img-fluid" style="max-width: 250px;" />
+                        <div id="qrcode"></div>
                     </div>
                     <p class="text-muted mb-4 fs-6">
                         قم بطباعة هذا الكود ووضعه عند مدخل الجامعة <br> ليتمكن الطلاب من مسحه والانضمام للدور.
                     </p>
                     <div class="d-grid gap-3">
-                        <button onclick="window.print()" class="btn-modern py-3">
+                        <button onclick="shareQR()" class="btn-modern py-3">
+                            <i class="bi bi-share ms-2"></i> مشاركة الرابط
+                        </button>
+                        <button onclick="window.print()" class="btn-modern-outline py-3">
                             <i class="bi bi-printer ms-2"></i> طباعة كود الوصول
                         </button>
-                        <button type="button" class="btn-modern-outline py-3" data-bs-dismiss="modal">إغلاق
+                        <button type="button" class="btn-modern-outline py-3 border-0" data-bs-dismiss="modal">إغلاق
                             النافذة</button>
                     </div>
                 </div>
@@ -218,3 +221,38 @@
         }
     }
 </style>
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        const qrContent = "https://obouruni.runasp.net/Queue";
+        const qrContainer = document.getElementById("qrcode");
+
+        new QRCode(qrContainer, {
+            text: qrContent,
+            width: 250,
+            height: 250,
+            colorDark: "#0f172a",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+
+        async function shareQR() {
+            const shareData = {
+                title: 'بوابة Obour Pay',
+                text: 'يمكنك الانضمام للدور من هنا:',
+                url: qrContent
+            };
+
+            try {
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                } else {
+                    await navigator.clipboard.writeText(qrContent);
+                    alert("تم نسخ الرابط بنجاح!");
+                }
+            } catch (err) {
+                console.log("Sharing failed", err);
+            }
+        }
+    </script>
+}

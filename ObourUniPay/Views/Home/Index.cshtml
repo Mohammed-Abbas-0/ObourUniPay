@@ -10,16 +10,17 @@
                 <div class="mb-4">
                     <span
                         class="badge rounded-pill bg-soft-indigo text-primary-app px-4 py-2 border border-primary-app border-opacity-10 fw-600">
-                        Official Obour University Portal
+                        Official Obour Pay Portal
                     </span>
                 </div>
 
                 <!-- Immersive Hero Typography -->
                 <h1 class="display-2 mb-4" style="line-height: 1.1; font-weight: 900; color: #0f172a;">
-                    Obour Uni
+                    Obour Pay
                 </h1>
                 <p class="lead mb-5" style="max-width: 600px; font-size: 1.25rem; color: #64748b;">
-                    استمتع بنظام حجز الأدوار الرقمي الجديد من جامعة عبور. سجل دورك بلمحة، وانتظر في راحتك مع خدماتنا المتكاملة.
+                    استمتع بنظام حجز الأدوار الرقمي الجديد من Obour Pay. سجل دورك بلمحة، وانتظر في راحتك مع خدماتنا
+                    المتكاملة.
                 </p>
 
                 <!-- Premium Actions -->
@@ -42,7 +43,12 @@
                             سريع</span>
                     </div>
                     <div class="bg-white p-3 rounded-4 shadow-sm d-inline-block mb-3 border border-light">
-                        <img src="/images/portal_qr.png" alt="Portal QR" class="img-fluid" style="max-width: 200px;" />
+                        <div id="qrcode"></div>
+                    </div>
+                    <div class="mt-2">
+                        <button onclick="shareQR()" class="btn-modern-outline py-2 px-4 small w-100">
+                            <i class="bi bi-share ms-2"></i> مشاركة الكود
+                        </button>
                     </div>
                     <h4 class="fw-800 mb-2">امسح للدخول</h4>
                     <p class="text-muted small mb-0">يمكنك مسح هذا الكود مباشرة من هاتفك للانضمام إلى قائمة الانتظار
@@ -102,3 +108,38 @@
         </div>
     </div>
 </div>
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        const qrContent = "https://obouruni.runasp.net/Queue";
+        const qrContainer = document.getElementById("qrcode");
+
+        new QRCode(qrContainer, {
+            text: qrContent,
+            width: 200,
+            height: 200,
+            colorDark: "#0f172a",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+
+        async function shareQR() {
+            const shareData = {
+                title: 'Obour Pay',
+                text: 'انضم إلى قائمة الانتظار في Obour Pay عبر هذا الرابط:',
+                url: qrContent
+            };
+
+            try {
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                } else {
+                    await navigator.clipboard.writeText(qrContent);
+                    alert("تم نسخ الرابط إلى الحافظة!");
+                }
+            } catch (err) {
+                console.error("Error sharing:", err);
+            }
+        }
+    </script>
+}
