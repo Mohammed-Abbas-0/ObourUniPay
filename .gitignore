@@ -362,3 +362,5 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /ObourUniPay/appsettings.json
+/ObourUniPay/appsettings.Development.json
+/ObourUniPay/Program.cs
