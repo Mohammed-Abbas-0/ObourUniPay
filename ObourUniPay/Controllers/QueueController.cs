@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Obour_Uni_Pay.Services;
-using Obour_Uni_Pay.Models;
+using ObourUniPay.Core.Models;
 
 namespace Obour_Uni_Pay.Controllers
 {

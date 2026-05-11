@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Obour_Uni_Pay.Data;
+using ObourUniPay.Core.Data;
 using Obour_Uni_Pay.Services;
 using Obour_Uni_Pay.Middleware;
 
@@ -8,8 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<ApplicationDbContext>();
 
 builder.Services.AddScoped<IQueueService, QueueService>();
 

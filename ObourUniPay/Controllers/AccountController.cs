@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Obour_Uni_Pay.Models.ViewModels;
+using ObourUniPay.Core.Models.ViewModels;
 
 namespace Obour_Uni_Pay.Controllers
 {

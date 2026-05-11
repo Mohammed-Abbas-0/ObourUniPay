@@ -1,7 +1,7 @@
-@model List<Obour_Uni_Pay.Models.QueueTurn>
+@model List<ObourUniPay.Core.Models.QueueTurn>
 @{
     ViewData["Title"] = "لوحة التحكم";
-    var pending = Model.Count(t => t.Status == Obour_Uni_Pay.Models.TurnStatus.Pending);
+    var pending = Model.Count(t => t.Status == ObourUniPay.Core.Models.TurnStatus.Pending);
 }
 
 <div class="container section-py animate-fade-in">
@@ -140,7 +140,7 @@
                                     <div class="small text-muted">@item.Student?.Stage</div>
                                 </td>
                                 <td>
-                                    @if (item.Status == Obour_Uni_Pay.Models.TurnStatus.Pending)
+                                    @if (item.Status == ObourUniPay.Core.Models.TurnStatus.Pending)
                                     {
                                         <span class="badge badge-waiting px-3 py-2 fw-600">
                                             في الانتظار

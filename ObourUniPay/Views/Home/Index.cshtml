@@ -1,5 +1,5 @@
-﻿@{
-    ViewData["Title"] = "الرئيسية";
+@{
+    ViewData["Title"] = "????????";
 }
 
 <div class="section-py">
@@ -19,17 +19,17 @@
                     Obour Pay
                 </h1>
                 <p class="lead mb-5" style="max-width: 600px; font-size: 1.25rem; color: #64748b;">
-                    استمتع بنظام حجز الأدوار الرقمي الجديد من Obour Pay. سجل دورك بلمحة، وانتظر في راحتك مع خدماتنا
-                    المتكاملة.
+                    ?????? ????? ??? ??????? ?????? ?????? ?? Obour Pay. ??? ???? ?????? ?????? ?? ????? ?? ???????
+                    ?????????.
                 </p>
 
                 <!-- Premium Actions -->
                 <div class="d-flex flex-column flex-md-row gap-3 mb-5 justify-content-center justify-content-lg-start">
                     <a asp-controller="Queue" asp-action="Index" class="btn-modern px-5 py-3 fs-5">
-                        ابدأ دوري الآن <i class="bi bi-arrow-left-short ms-2"></i>
+                        ???? ???? ???? <i class="bi bi-arrow-left-short ms-2"></i>
                     </a>
                     <a href="#features" class="btn-modern-outline px-5 py-3 fs-5">
-                        كيف يعمل النظام؟
+                        ??? ???? ???????
                     </a>
                 </div>
             </div>
@@ -39,20 +39,20 @@
                 <div class="card-clean text-center p-4 border-primary-app border-opacity-10"
                     style="background: #ffffff; box-shadow: 0 30px 60px rgba(99, 102, 241, 0.08);">
                     <div class="mb-3">
-                        <span class="badge bg-soft-indigo text-primary-app px-3 py-1 rounded-pill small fw-700">دخول
-                            سريع</span>
+                        <span class="badge bg-soft-indigo text-primary-app px-3 py-1 rounded-pill small fw-700">????
+                            ????</span>
                     </div>
                     <div class="bg-white p-3 rounded-4 shadow-sm d-inline-block mb-3 border border-light">
                         <div id="qrcode"></div>
                     </div>
                     <div class="mt-2">
                         <button onclick="shareQR()" class="btn-modern-outline py-2 px-4 small w-100">
-                            <i class="bi bi-share ms-2"></i> مشاركة الكود
+                            <i class="bi bi-share ms-2"></i> ?????? ?????
                         </button>
                     </div>
-                    <h4 class="fw-800 mb-2">امسح للدخول</h4>
-                    <p class="text-muted small mb-0">يمكنك مسح هذا الكود مباشرة من هاتفك للانضمام إلى قائمة الانتظار
-                        فوراً.</p>
+                    <h4 class="fw-800 mb-2">???? ??????</h4>
+                    <p class="text-muted small mb-0">????? ??? ??? ????? ?????? ?? ????? ???????? ??? ????? ????????
+                        ?????.</p>
                 </div>
             </div>
         </div>
@@ -60,11 +60,11 @@
         <!-- Visual Anchor -->
         <div class="mt-5 pt-5 opacity-50 text-center">
             <div class="d-inline-flex align-items-center gap-4 text-muted small fw-600 tracking-widest text-uppercase">
-                <span>سريع</span>
+                <span>????</span>
                 <i class="bi bi-dot"></i>
-                <span>رقمي</span>
+                <span>????</span>
                 <i class="bi bi-dot"></i>
-                <span>متكامل</span>
+                <span>??????</span>
             </div>
         </div>
     </div>
@@ -80,9 +80,9 @@
                     <div class="text-primary-app mb-4">
                         <i class="bi bi-lightning-charge fs-1"></i>
                     </div>
-                    <h3 class="mb-3">حجز فوري</h3>
-                    <p class="text-muted mb-0">امسح كارت الطالب الخاص بك أو ادخل الباركود لتحصل على رقم دورك في ثوانٍ
-                        معدودة.
+                    <h3 class="mb-3">??? ????</h3>
+                    <p class="text-muted mb-0">???? ???? ?????? ????? ?? ?? ???? ???????? ????? ??? ??? ???? ?? ?????
+                        ??????.
                     </p>
                 </div>
             </div>
@@ -91,8 +91,8 @@
                     <div class="text-primary-app mb-4">
                         <i class="bi bi-shield-check fs-1"></i>
                     </div>
-                    <h3 class="mb-3">هوية موثقة</h3>
-                    <p class="text-muted mb-0">النظام مرتبط مباشرة بسجلات شؤون الطلاب لضمان الدقة والأمان في كل معاملة.
+                    <h3 class="mb-3">???? ?????</h3>
+                    <p class="text-muted mb-0">?????? ????? ?????? ?????? ???? ?????? ????? ????? ??????? ?? ?? ??????.
                     </p>
                 </div>
             </div>
@@ -101,8 +101,8 @@
                     <div class="text-primary-app mb-4">
                         <i class="bi bi-printer fs-1"></i>
                     </div>
-                    <h3 class="mb-3">تذاكر رقمية</h3>
-                    <p class="text-muted mb-0">احصل على تذكرة رقمية على هاتفك أو اطبعها لتبرزها عند الموظف المختص.</p>
+                    <h3 class="mb-3">????? ?????</h3>
+                    <p class="text-muted mb-0">???? ??? ????? ????? ??? ????? ?? ?????? ??????? ??? ?????? ??????.</p>
                 </div>
             </div>
         </div>
@@ -126,7 +126,7 @@
         async function shareQR() {
             const shareData = {
                 title: 'Obour Pay',
-                text: 'انضم إلى قائمة الانتظار في Obour Pay عبر هذا الرابط:',
+                text: '???? ??? ????? ???????? ?? Obour Pay ??? ??? ??????:',
                 url: qrContent
             };
 
@@ -135,7 +135,7 @@
                     await navigator.share(shareData);
                 } else {
                     await navigator.clipboard.writeText(qrContent);
-                    alert("تم نسخ الرابط إلى الحافظة!");
+                    alert("?? ??? ?????? ??? ???????!");
                 }
             } catch (err) {
                 console.error("Error sharing:", err);

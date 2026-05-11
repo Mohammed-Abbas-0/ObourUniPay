@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Obour_Uni_Pay.Data;
-using Obour_Uni_Pay.Models;
+using ObourUniPay.Core.Data;
+using ObourUniPay.Core.Models;
 
 namespace Obour_Uni_Pay.Services
 {

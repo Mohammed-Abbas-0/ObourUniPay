@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Obour_Uni_Pay.Data;
-using Obour_Uni_Pay.Models;
+using ObourUniPay.Core.Data;
+using ObourUniPay.Core.Models;
 
 namespace Obour_Uni_Pay.Controllers
 {
